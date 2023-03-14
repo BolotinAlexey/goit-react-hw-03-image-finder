@@ -1,6 +1,7 @@
 import { Component } from 'react';
 import { Wrap } from 'components/App.styled.js';
 
+import { PER_PAGE } from 'services/constants';
 import * as API from '../services/api';
 import Searchbar from 'components/Searchbar/Searchbar';
 import ImageGallery from 'components/ImageGallery/ImageGallery';
@@ -13,14 +14,22 @@ class App extends Component {
     gallery: [],
     isLoading: false,
     page: 1,
+    totalHits: 0,
+  };
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   first;
+  // }
+  isSomeMore = () => {
+    return PER_PAGE * this.state.page < this.state.gallery.totalHits;
   };
 
   handlerSubmit = async word => {
     this.setState({ isLoading: true });
-    const reponseDate = await API.readData(word);
+    const reponseDate = await API.readData(word, this.state.page);
 
-    this.setState(({ gallery, isLoading }) => {
-      return { gallery: [...gallery, ...reponseDate], isLoading: false };
+    this.setState(({ gallery, totalHits }) => {
+      return { gallery: [...gallery, ...reponseDate.hits], isLoading: false };
     });
   };
 
@@ -38,7 +47,7 @@ class App extends Component {
         {isLoading && <Loader />}
 
         {/* button 'Load more' */}
-        {!isLoading && <Button />}
+        {this.isSomeMore() && <Button isDisabled={isLoading} />}
 
         {/* modal */}
         <Modal></Modal>
