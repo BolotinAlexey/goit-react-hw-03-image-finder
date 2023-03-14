@@ -1,4 +1,4 @@
-import ImageGalleryItem from 'component/ImageGalleryItem/ImageGalleryItem';
+import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 function ImageGallery({ gallery }) {
   return (
     <ul>
@@ -8,3 +8,5 @@ function ImageGallery({ gallery }) {
     </ul>
   );
 }
+
+export default ImageGallery;
