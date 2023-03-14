@@ -1,8 +1,12 @@
-function ImageGalleryItem({ webformatURL, largeImageURL }) {
+import { Li } from './ImageGalleryItem.styled';
+
+function ImageGalleryItem({ itemData }) {
+  const { tags, webformatURL } = itemData;
+  // console.log(webformatURL);
   return (
-    <li>
-      <img src="" alt="" />
-    </li>
+    <Li>
+      <img src={webformatURL} alt={tags} />
+    </Li>
   );
 }
 

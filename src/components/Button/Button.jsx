@@ -1,5 +1,6 @@
+import { Btn } from './Button.styled';
 function Button() {
-  return <button></button>;
+  return <Btn>more</Btn>;
 }
 
 export default Button;

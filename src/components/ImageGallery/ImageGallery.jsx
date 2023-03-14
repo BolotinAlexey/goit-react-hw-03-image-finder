@@ -1,11 +1,12 @@
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
+import { Ul } from './ImageGallery.styled';
 function ImageGallery({ gallery }) {
   return (
-    <ul>
+    <Ul>
       {gallery.map(el => {
-        return <ImageGalleryItem key={el.id} data={el}></ImageGalleryItem>;
+        return <ImageGalleryItem key={el.id} itemData={el}></ImageGalleryItem>;
       })}
-    </ul>
+    </Ul>
   );
 }
 

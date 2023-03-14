@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { Header } from './Searchbar.styled';
 
 class Searchbar extends Component {
   state = {
@@ -16,22 +17,22 @@ class Searchbar extends Component {
 
   render() {
     return (
-      <header>
+      <Header>
         <form onSubmit={this.handlerSubmit}>
-          <button type="submit">
+          <button type="submit" disabled={this.props.isDisabled}>
             <span>Search</span>
           </button>
 
           <input
             type="text"
-            autocomplete="off"
-            autofocus
+            autoComplete="off"
+            autoFocus
             placeholder="Search images and photos"
             onChange={this.onChange}
             value={this.state.value}
           />
         </form>
-      </header>
+      </Header>
     );
   }
 }
