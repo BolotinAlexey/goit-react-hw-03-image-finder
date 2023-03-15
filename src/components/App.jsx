@@ -11,26 +11,39 @@ import Modal from 'components/Modal/Modal';
 
 class App extends Component {
   state = {
+    word: '',
     gallery: [],
     isLoading: false,
     page: 1,
     totalHits: 0,
   };
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   first;
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    first;
+  }
   isSomeMore = () => {
-    return PER_PAGE * this.state.page < this.state.gallery.totalHits;
+    console.log(this.state.totalHits);
+    return PER_PAGE * this.state.page < this.state.totalHits;
   };
 
   handlerSubmit = async word => {
-    this.setState({ isLoading: true });
-    const reponseDate = await API.readData(word, this.state.page);
+    this.setState({ isLoading: true, word });
+    const responseDate = await API.readData(word, this.state.page);
 
-    this.setState(({ gallery, totalHits }) => {
-      return { gallery: [...gallery, ...reponseDate.hits], isLoading: false };
+    this.setState(({ gallery, page }) => {
+      return {
+        gallery: [...gallery, ...responseDate.hits],
+        isLoading: false,
+        totalHits: responseDate.totalHits,
+        page: ++page,
+      };
     });
+    console.log('th: ', this.state.totalHits);
+  };
+
+  handlerMore = () => {
+    console.log(this.state);
+    this.handlerSubmit(this.state.word);
   };
 
   render() {
@@ -47,7 +60,9 @@ class App extends Component {
         {isLoading && <Loader />}
 
         {/* button 'Load more' */}
-        {this.isSomeMore() && <Button isDisabled={isLoading} />}
+        {this.isSomeMore() && (
+          <Button isDisabled={isLoading} onClick={this.handlerMore} />
+        )}
 
         {/* modal */}
         <Modal></Modal>

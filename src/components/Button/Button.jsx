@@ -1,6 +1,10 @@
 import { Btn } from './Button.styled';
-function Button({ isDisabled }) {
-  return <Btn disabled={isDisabled}>Load more</Btn>;
+function Button({ isDisabled, onClick }) {
+  return (
+    <Btn disabled={isDisabled} onClick={onClick}>
+      Load more
+    </Btn>
+  );
 }
 
 export default Button;
