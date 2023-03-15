@@ -29,22 +29,25 @@ class App extends Component {
   // }
 
   componentDidUpdate(prevProps, { gallery }) {
+    if (this.state.gallery.length === 0) window.scrollTo({ top: 0 });
     if (gallery.length !== this.state.gallery.length)
-      console.log(document.querySelector('body').scrollHeight);
-    window.scrollTo({
-      top: document.querySelector('body').scrollHeight,
-      behavior: 'smooth',
-    });
+      window.scrollTo({
+        top: document.querySelector('body').scrollHeight,
+        behavior: 'smooth',
+      });
   }
 
-  isSomeMore = () => {
-    console.log(this.state.totalHits);
-    return this.state.gallery.length < this.state.totalHits;
-  };
+  // isSomeMore = () => {
+  //   console.log(this.state.totalHits);
+  //   return this.state.gallery.length < this.state.totalHits;
+  // };
+
+  requestToApi = async word => {};
 
   handlerSubmit = async word => {
     this.setState({ status: 'load' });
-    const currentGallery = word === this.state.word ? this.state.gallery : [];
+    const currentGallery =
+      word === this.state.word && this.state.isMore ? this.state.gallery : [];
     try {
       const { gallery, isMore } = await API.readData(
         word,
@@ -75,23 +78,19 @@ class App extends Component {
   };
 
   render() {
-    const { gallery, isLoading, isMore, status } = this.state;
+    const { gallery, isMore, status } = this.state;
     return (
       <Wrap>
         {/* search bar */}
-        <Searchbar onSubmit={this.handlerSubmit} isDisabled={isLoading} />
-
+        <Searchbar onSubmit={this.handlerSubmit} isDisabled={status} />
         {/* gallery list */}
         <ImageGallery gallery={gallery} />
-
         {/* loader */}
-        {status === 'load' && <Loader />}
-
+        <Loader visible={status === 'load'} />
         {/* button 'Load more' */}
         {isMore && (
           <Button isDisabled={status === 'load'} onClick={this.handlerMore} />
         )}
-
         {/* modal */}
         {status === 'modal' && <Modal></Modal>}
       </Wrap>
