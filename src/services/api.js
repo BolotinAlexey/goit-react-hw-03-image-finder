@@ -7,6 +7,7 @@ export async function readData(query, page) {
   const response = await axios.get(
     `?key=${KEY}&image_type=photo&orientation=horizontal&per_page=${PER_PAGE}&q=${query}&page=${page}`
   );
-  console.log(response.data);
-  return response.data;
+  const isMore = response.data.totalHits > PER_PAGE * page;
+
+  return { gallery: response.data.hits, isMore };
 }

@@ -13,14 +13,29 @@ class App extends Component {
   state = {
     word: '',
     gallery: [],
-    isLoading: false,
-
-    totalHits: 0,
+    status: '',
+    isMore: false,
   };
 
-  // componentDidUpdate(prevProps, { gallery, word }) {
-  //   if (word !== this.state.word) this.setState({ gallery: [], totalHits: 0 });
+  // getSnapshotBeforeUpdate(prevProps, prevState) {
+  //   const h = document.querySelector('body').scrollHeight;
+  //   console.log(h);
+  //   return h;
   // }
+  // componentDidUpdate(prevProps, prevState, snapshot) {
+  //   console.log(snapshot);
+  //   document.querySelector('body').scrollTop = 0;
+
+  // }
+
+  componentDidUpdate(prevProps, { gallery }) {
+    if (gallery.length !== this.state.gallery.length)
+      console.log(document.querySelector('body').scrollHeight);
+    window.scrollTo({
+      top: document.querySelector('body').scrollHeight,
+      behavior: 'smooth',
+    });
+  }
 
   isSomeMore = () => {
     console.log(this.state.totalHits);
@@ -28,21 +43,30 @@ class App extends Component {
   };
 
   handlerSubmit = async word => {
-    this.setState({ isLoading: true });
+    this.setState({ status: 'load' });
     const currentGallery = word === this.state.word ? this.state.gallery : [];
-    // if (word !== this.state.word) {this.setState({ gallery:[], word });}
+    try {
+      const { gallery, isMore } = await API.readData(
+        word,
+        Math.floor(currentGallery.length / PER_PAGE) + 1
+      );
 
-    const responseDate = await API.readData(
-      word,
-      Math.floor(currentGallery.length / PER_PAGE) + 1
-    );
-
-    this.setState({
-      gallery: [...currentGallery, ...responseDate.hits],
-      isLoading: false,
-      totalHits: responseDate.totalHits,
-      word,
-    });
+      console.log(gallery, isMore);
+      this.setState({
+        gallery: [...currentGallery, ...gallery],
+        status: '',
+        isMore,
+        word,
+      });
+    } catch (error) {
+      console.error(error);
+      this.setState({
+        word: '',
+        gallery: [],
+        isLoading: false,
+        isMore: false,
+      });
+    }
   };
 
   handlerMore = () => {
@@ -51,7 +75,7 @@ class App extends Component {
   };
 
   render() {
-    const { gallery, isLoading } = this.state;
+    const { gallery, isLoading, isMore, status } = this.state;
     return (
       <Wrap>
         {/* search bar */}
@@ -61,15 +85,15 @@ class App extends Component {
         <ImageGallery gallery={gallery} />
 
         {/* loader */}
-        {isLoading && <Loader />}
+        {status === 'load' && <Loader />}
 
         {/* button 'Load more' */}
-        {this.isSomeMore() && (
-          <Button isDisabled={isLoading} onClick={this.handlerMore} />
+        {isMore && (
+          <Button isDisabled={status === 'load'} onClick={this.handlerMore} />
         )}
 
         {/* modal */}
-        <Modal></Modal>
+        {status === 'modal' && <Modal></Modal>}
       </Wrap>
     );
   }
