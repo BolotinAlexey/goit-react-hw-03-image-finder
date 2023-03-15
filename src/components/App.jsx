@@ -14,31 +14,35 @@ class App extends Component {
     word: '',
     gallery: [],
     isLoading: false,
-    page: 1,
+
     totalHits: 0,
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    first;
-  }
+  // componentDidUpdate(prevProps, { gallery, word }) {
+  //   if (word !== this.state.word) this.setState({ gallery: [], totalHits: 0 });
+  // }
+
   isSomeMore = () => {
     console.log(this.state.totalHits);
-    return PER_PAGE * this.state.page < this.state.totalHits;
+    return this.state.gallery.length < this.state.totalHits;
   };
 
   handlerSubmit = async word => {
-    this.setState({ isLoading: true, word });
-    const responseDate = await API.readData(word, this.state.page);
+    this.setState({ isLoading: true });
+    const currentGallery = word === this.state.word ? this.state.gallery : [];
+    // if (word !== this.state.word) {this.setState({ gallery:[], word });}
 
-    this.setState(({ gallery, page }) => {
-      return {
-        gallery: [...gallery, ...responseDate.hits],
-        isLoading: false,
-        totalHits: responseDate.totalHits,
-        page: ++page,
-      };
+    const responseDate = await API.readData(
+      word,
+      Math.floor(currentGallery.length / PER_PAGE) + 1
+    );
+
+    this.setState({
+      gallery: [...currentGallery, ...responseDate.hits],
+      isLoading: false,
+      totalHits: responseDate.totalHits,
+      word,
     });
-    console.log('th: ', this.state.totalHits);
   };
 
   handlerMore = () => {
