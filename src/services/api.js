@@ -8,6 +8,6 @@ export async function readData(query, page) {
     `?key=${KEY}&image_type=photo&orientation=horizontal&per_page=${PER_PAGE}&q=${query}&page=${page}`
   );
   const isMore = response.data.totalHits > PER_PAGE * page;
-
-  return { gallery: response.data.hits, isMore };
+  console.log(response.data.totalHits);
+  return { reqGallery: response.data.hits, isMore };
 }

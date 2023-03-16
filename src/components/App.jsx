@@ -42,21 +42,17 @@ class App extends Component {
   //   return this.state.gallery.length < this.state.totalHits;
   // };
 
-  requestToApi = async word => {};
-
-  handlerSubmit = async word => {
+  requestToApi = async (word, currentGallery) => {
     this.setState({ status: 'load' });
-    const currentGallery =
-      word === this.state.word && this.state.isMore ? this.state.gallery : [];
     try {
-      const { gallery, isMore } = await API.readData(
+      const { reqGallery, isMore } = await API.readData(
         word,
         Math.floor(currentGallery.length / PER_PAGE) + 1
       );
 
-      console.log(gallery, isMore);
+      console.log(reqGallery, isMore);
       this.setState({
-        gallery: [...currentGallery, ...gallery],
+        gallery: [...currentGallery, ...reqGallery],
         status: '',
         isMore,
         word,
@@ -66,15 +62,28 @@ class App extends Component {
       this.setState({
         word: '',
         gallery: [],
-        isLoading: false,
+        status: '',
         isMore: false,
       });
     }
   };
 
+  handlerSubmit = word => {
+    this.setState({
+      word,
+      gallery: [],
+      status: 'load',
+    });
+
+    this.requestToApi(word, []);
+
+    // const currentGallery =
+    //   word === this.state.word && this.state.isMore ? this.state.gallery : [];
+  };
+
   handlerMore = () => {
     console.log(this.state);
-    this.handlerSubmit(this.state.word);
+    this.requestToApi(this.state.word, this.state.gallery);
   };
 
   render() {
