@@ -18,13 +18,14 @@ class Modal extends Component {
   };
   render() {
     const { children } = this.props;
-    return;
-    (
-      <Overlay onClick={this.onClose}>
-        <ModalStyle>{children}</ModalStyle>
-      </Overlay>
-    ),
-      modalRoot;
+    return (
+      (
+        <Overlay onClick={this.onClose}>
+          <ModalStyle>{children}</ModalStyle>
+        </Overlay>
+      ),
+      modalRoot
+    );
   }
 }
 
