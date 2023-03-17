@@ -13,12 +13,13 @@ class Modal extends Component {
   }
 
   onClose = e => {
-    if (e.code === 'Escape') this.props.closeWindow();
+    if (e?.code === 'Escape' || e?.target === e?.currentTarget)
+      this.props.closeWindow();
   };
   render() {
     const { children } = this.props;
     return createPortal(
-      <Overlay>
+      <Overlay onClick={this.onClose}>
         <ModalStyle>{children}</ModalStyle>
       </Overlay>,
       modalRoot
