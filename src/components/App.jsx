@@ -11,14 +11,23 @@ import Modal from 'components/Modal/Modal';
 
 class App extends Component {
   state = {
+    // resesarch word
     word: '',
+
+    // array of gallery objects
     gallery: [],
+
+    //flag shower of spiner
     isLoading: false,
+
+    //flag shower button of 'read-more'
     isMore: false,
+
+    // {img:refer to large img,alt:text of attribute alt}
     modalImg: null,
   };
 
-  componentDidUpdate(prevProps, { gallery }) {
+  componentDidUpdate(_, { gallery }) {
     if (this.state.gallery.length === 0) window.scrollTo({ top: 0 });
     if (gallery.length !== this.state.gallery.length)
       window.scrollTo({
@@ -27,6 +36,7 @@ class App extends Component {
       });
   }
 
+  // helper function for working with request api
   requestToApi = async (word, currentGallery) => {
     this.setState({ isLoading: true });
     try {
@@ -52,6 +62,7 @@ class App extends Component {
     }
   };
 
+  // submit new word
   handlerSubmit = word => {
     this.setState({
       word,
@@ -62,14 +73,17 @@ class App extends Component {
     this.requestToApi(word, []);
   };
 
+  // press button 'read more'
   handlerMore = () => {
     this.requestToApi(this.state.word, this.state.gallery);
   };
 
+  // click to element of gallery
   onClickToGallery = modalImg => {
     this.setState({ modalImg });
   };
 
+  // close modal window
   closeModal = () => this.setState({ modalImg: null });
 
   render() {
