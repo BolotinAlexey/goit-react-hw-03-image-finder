@@ -72,10 +72,19 @@ class App extends Component {
     this.setState({ modalImg });
   };
 
+  closeModal = () => this.setState({ modalImg: null });
+
   render() {
     const { gallery, isMore, isLoading, modalImg } = this.state;
     return (
       <Wrap>
+        {/* modal */}
+        {modalImg && (
+          <Modal closeWindow={this.closeModal}>
+            <img src={modalImg?.img} alt={modalImg?.alt} />
+          </Modal>
+        )}
+
         {/* search bar */}
         <Searchbar onSubmit={this.handlerSubmit} isDisabled={isLoading} />
         {/* gallery list */}
@@ -87,8 +96,6 @@ class App extends Component {
         <Loader visible={isLoading} />
         {/* button 'Load more' */}
         {isMore && <Button isDisabled={isLoading} onClick={this.handlerMore} />}
-        {/* modal */}
-        {modalImg && <Modal source={modalImg}></Modal>}
       </Wrap>
     );
   }
