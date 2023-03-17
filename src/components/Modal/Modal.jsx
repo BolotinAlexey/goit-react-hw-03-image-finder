@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { createPortal } from 'react-dom';
+// import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Overlay, ModalStyle } from './Modal.styled';
 
@@ -18,12 +18,13 @@ class Modal extends Component {
   };
   render() {
     const { children } = this.props;
-    return createPortal(
+    return;
+    (
       <Overlay onClick={this.onClose}>
         <ModalStyle>{children}</ModalStyle>
-      </Overlay>,
-      modalRoot
-    );
+      </Overlay>
+    ),
+      modalRoot;
   }
 }
 
