@@ -35,7 +35,6 @@ class App extends Component {
         Math.floor(currentGallery.length / PER_PAGE) + 1
       );
 
-      console.log(reqGallery, isMore);
       this.setState({
         gallery: [...currentGallery, ...reqGallery],
         isMore,
@@ -64,7 +63,6 @@ class App extends Component {
   };
 
   handlerMore = () => {
-    console.log(this.state);
     this.requestToApi(this.state.word, this.state.gallery);
   };
 
