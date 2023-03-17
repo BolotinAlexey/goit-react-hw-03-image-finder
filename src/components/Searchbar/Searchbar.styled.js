@@ -74,4 +74,7 @@ export const Header = styled.header`
       font-size: 18px;
     }
   }
+  .icon {
+    transform: translateY(3px);
+  }
 `;
