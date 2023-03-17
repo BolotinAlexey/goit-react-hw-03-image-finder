@@ -1,6 +1,6 @@
 import { Component } from 'react';
-// import { createPortal } from 'react-dom';
-import PropTypes from 'prop-types';
+import { createPortal } from 'react-dom';
+
 import { Overlay, ModalStyle } from './Modal.styled';
 
 const modalRoot = document.querySelector('#modal-root');
@@ -18,18 +18,12 @@ class Modal extends Component {
   };
   render() {
     const { children } = this.props;
-    return (
-      (
-        <Overlay onClick={this.onClose}>
-          <ModalStyle>{children}</ModalStyle>
-        </Overlay>
-      ),
+    return createPortal(
+      <Overlay onClick={this.onClose}>
+        <ModalStyle>{children}</ModalStyle>
+      </Overlay>,
       modalRoot
     );
   }
 }
-
-Modal.propTypes = {
-  onClick: PropTypes.func.isRequired,
-};
 export default Modal;
