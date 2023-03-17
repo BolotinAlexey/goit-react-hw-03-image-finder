@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import { Header } from './Searchbar.styled';
-import { FaSearch, FaRegWindowClose } from 'react-icons/fa';
+// import { FaSearch, FaRegWindowClose } from 'react-icons/fa';
 
 class Searchbar extends Component {
   state = {
@@ -27,7 +27,7 @@ class Searchbar extends Component {
       <Header>
         <form onSubmit={this.handlerSubmit}>
           <button type="submit" disabled={this.props.isDisabled}>
-            <FaSearch size={20} className="icon" />
+            {/* <FaSearch size={20} className="icon" /> */}
           </button>
 
           <input
@@ -39,13 +39,13 @@ class Searchbar extends Component {
             value={value}
           />
 
-          <button onClick={this.onReset} type="reset">
+          {/* <button onClick={this.onReset} type="reset">
             <FaRegWindowClose
               className="icon"
               size={20}
               color={value ? 'red' : 'transparent'}
             />
-          </button>
+          </button> */}
         </form>
       </Header>
     );
