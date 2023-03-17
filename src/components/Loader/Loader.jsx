@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { Dna } from 'react-loader-spinner';
 function Loader({ visible }) {
   return (
@@ -16,4 +18,7 @@ function Loader({ visible }) {
   );
 }
 
+Loader.propTypes = {
+  visible: PropTypes.bool.isRequired,
+};
 export default Loader;

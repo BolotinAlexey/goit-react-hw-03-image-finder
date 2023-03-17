@@ -1,5 +1,8 @@
+import PropTypes from 'prop-types';
+
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Ul } from './ImageGallery.styled';
+
 function ImageGallery({ gallery, onClickToGallery }) {
   return (
     <Ul>
@@ -15,5 +18,10 @@ function ImageGallery({ gallery, onClickToGallery }) {
     </Ul>
   );
 }
+
+ImageGallery.propTypes = {
+  gallery: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onClickToGallery: PropTypes.func.isRequired,
+};
 
 export default ImageGallery;

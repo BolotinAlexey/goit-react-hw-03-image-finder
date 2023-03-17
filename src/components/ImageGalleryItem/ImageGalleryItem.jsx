@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 import { Li } from './ImageGalleryItem.styled';
 
 function ImageGalleryItem({ itemData, onClikImg }) {
@@ -12,5 +14,10 @@ function ImageGalleryItem({ itemData, onClikImg }) {
     </Li>
   );
 }
+
+ImageGalleryItem.propTypes = {
+  itemData: PropTypes.object.isRequired,
+  onClikImg: PropTypes.func.isRequired,
+};
 
 export default ImageGalleryItem;

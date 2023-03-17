@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
 
 import { Overlay, ModalStyle } from './Modal.styled';
 
@@ -16,6 +17,7 @@ class Modal extends Component {
     if (e?.code === 'Escape' || e?.target === e?.currentTarget)
       this.props.closeWindow();
   };
+
   render() {
     const { children } = this.props;
     return createPortal(
@@ -26,4 +28,9 @@ class Modal extends Component {
     );
   }
 }
+
+Modal.propTypes = {
+  children: PropTypes.element.isRequired,
+  closeWindow: PropTypes.func.isRequired,
+};
 export default Modal;

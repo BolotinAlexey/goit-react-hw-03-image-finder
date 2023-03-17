@@ -1,4 +1,6 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import { Header } from './Searchbar.styled';
 import { FaSearch, FaRegWindowClose } from 'react-icons/fa';
 
@@ -7,14 +9,11 @@ class Searchbar extends Component {
     value: '',
   };
 
-  visibleHandler = () => (this.state.value ? 1 : 0.2);
-
   onReset = () => this.setState({ value: '' });
 
   handlerSubmit = e => {
     e.preventDefault();
     // this.setState({ value: '' });
-    // e.target.reset();
     const word = e.target.elements[1].value.trim();
     if (word) this.props.onSubmit(word);
   };
@@ -51,4 +50,10 @@ class Searchbar extends Component {
     );
   }
 }
+
+Searchbar.propTypes = {
+  isDisabled: PropTypes.bool.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
+
 export default Searchbar;
