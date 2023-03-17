@@ -1,10 +1,16 @@
 import ImageGalleryItem from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Ul } from './ImageGallery.styled';
-function ImageGallery({ gallery }) {
+function ImageGallery({ gallery, onClickToGallery }) {
   return (
     <Ul>
       {gallery.map(el => {
-        return <ImageGalleryItem key={el.id} itemData={el}></ImageGalleryItem>;
+        return (
+          <ImageGalleryItem
+            key={el.id}
+            itemData={el}
+            onClikImg={onClickToGallery}
+          ></ImageGalleryItem>
+        );
       })}
     </Ul>
   );

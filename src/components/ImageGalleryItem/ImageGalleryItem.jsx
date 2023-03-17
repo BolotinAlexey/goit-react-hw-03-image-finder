@@ -1,11 +1,15 @@
 import { Li } from './ImageGalleryItem.styled';
 
-function ImageGalleryItem({ itemData }) {
-  const { tags, webformatURL } = itemData;
+function ImageGalleryItem({ itemData, onClikImg }) {
+  const { tags, webformatURL, largeImageURL } = itemData;
   // console.log(webformatURL);
   return (
     <Li>
-      <img src={webformatURL} alt={tags} />
+      <img
+        onClick={() => onClikImg({ img: largeImageURL, alt: tags })}
+        src={webformatURL}
+        alt={tags}
+      />
     </Li>
   );
 }

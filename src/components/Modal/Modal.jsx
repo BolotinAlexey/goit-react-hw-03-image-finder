@@ -1,10 +1,11 @@
-function Modal({ children }) {
+import { Overlay, ModalStyle } from './Modal.styled';
+function Modal({ source }) {
   return (
-    <div className="overlay">
-      <div className="modal">
-        <img src="" alt="" />
-      </div>
-    </div>
+    <Overlay className="overlay">
+      <ModalStyle className="modal">
+        <img src={source.img} alt={source.alt} />
+      </ModalStyle>
+    </Overlay>
   );
 }
 export default Modal;

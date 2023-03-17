@@ -13,20 +13,10 @@ class App extends Component {
   state = {
     word: '',
     gallery: [],
-    status: '',
+    isLoading: false,
     isMore: false,
+    modalImg: null,
   };
-
-  // getSnapshotBeforeUpdate(prevProps, prevState) {
-  //   const h = document.querySelector('body').scrollHeight;
-  //   console.log(h);
-  //   return h;
-  // }
-  // componentDidUpdate(prevProps, prevState, snapshot) {
-  //   console.log(snapshot);
-  //   document.querySelector('body').scrollTop = 0;
-
-  // }
 
   componentDidUpdate(prevProps, { gallery }) {
     if (this.state.gallery.length === 0) window.scrollTo({ top: 0 });
@@ -37,13 +27,8 @@ class App extends Component {
       });
   }
 
-  // isSomeMore = () => {
-  //   console.log(this.state.totalHits);
-  //   return this.state.gallery.length < this.state.totalHits;
-  // };
-
   requestToApi = async (word, currentGallery) => {
-    this.setState({ status: 'load' });
+    this.setState({ isLoading: true });
     try {
       const { reqGallery, isMore } = await API.readData(
         word,
@@ -53,7 +38,6 @@ class App extends Component {
       console.log(reqGallery, isMore);
       this.setState({
         gallery: [...currentGallery, ...reqGallery],
-        status: '',
         isMore,
         word,
       });
@@ -62,9 +46,10 @@ class App extends Component {
       this.setState({
         word: '',
         gallery: [],
-        status: '',
         isMore: false,
       });
+    } finally {
+      this.setState({ isLoading: false });
     }
   };
 
@@ -72,13 +57,10 @@ class App extends Component {
     this.setState({
       word,
       gallery: [],
-      status: 'load',
+      isLoading: true,
     });
 
     this.requestToApi(word, []);
-
-    // const currentGallery =
-    //   word === this.state.word && this.state.isMore ? this.state.gallery : [];
   };
 
   handlerMore = () => {
@@ -86,22 +68,27 @@ class App extends Component {
     this.requestToApi(this.state.word, this.state.gallery);
   };
 
+  onClickToGallery = modalImg => {
+    this.setState({ modalImg });
+  };
+
   render() {
-    const { gallery, isMore, status } = this.state;
+    const { gallery, isMore, isLoading, modalImg } = this.state;
     return (
       <Wrap>
         {/* search bar */}
-        <Searchbar onSubmit={this.handlerSubmit} isDisabled={status} />
+        <Searchbar onSubmit={this.handlerSubmit} isDisabled={isLoading} />
         {/* gallery list */}
-        <ImageGallery gallery={gallery} />
+        <ImageGallery
+          gallery={gallery}
+          onClickToGallery={this.onClickToGallery}
+        />
         {/* loader */}
-        <Loader visible={status === 'load'} />
+        <Loader visible={isLoading} />
         {/* button 'Load more' */}
-        {isMore && (
-          <Button isDisabled={status === 'load'} onClick={this.handlerMore} />
-        )}
+        {isMore && <Button isDisabled={isLoading} onClick={this.handlerMore} />}
         {/* modal */}
-        {status === 'modal' && <Modal></Modal>}
+        {modalImg && <Modal source={modalImg}></Modal>}
       </Wrap>
     );
   }
