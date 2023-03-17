@@ -2,7 +2,6 @@ import { Li } from './ImageGalleryItem.styled';
 
 function ImageGalleryItem({ itemData, onClikImg }) {
   const { tags, webformatURL, largeImageURL } = itemData;
-  // console.log(webformatURL);
   return (
     <Li>
       <img

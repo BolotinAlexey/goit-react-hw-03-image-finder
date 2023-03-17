@@ -1,5 +1,6 @@
 import { Component } from 'react';
 import { Header } from './Searchbar.styled';
+import { FaSearch } from 'react-icons/fa';
 
 class Searchbar extends Component {
   state = {
@@ -20,7 +21,12 @@ class Searchbar extends Component {
       <Header>
         <form onSubmit={this.handlerSubmit}>
           <button type="submit" disabled={this.props.isDisabled}>
-            <span>Search</span>
+            <FaSearch
+              size={20}
+              style={{
+                transform: 'translateY(3px)',
+              }}
+            />
           </button>
 
           <input
