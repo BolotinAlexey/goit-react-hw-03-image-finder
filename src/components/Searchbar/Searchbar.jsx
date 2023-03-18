@@ -13,7 +13,7 @@ class Searchbar extends Component {
 
   handlerSubmit = e => {
     e.preventDefault();
-    // this.setState({ value: '' });
+    this.setState({ value: '' });
     const word = e.target.elements[1].value.trim();
     if (word) this.props.onSubmit(word);
   };
